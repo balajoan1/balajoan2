@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #giftList {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px; /* 增大格子之間的距離 */
+            margin-top: 20px;
+        }
+
+        .giftBox {
+            position: relative;
+            border: 1px solid #ccc;
+            padding: 20px; /* 增大格子內容的padding */
+            text-align: center;
+            margin-bottom: 20px; /* 增大格子之間的距離 */
+        }
+
+        .deleteButton {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            color: #FFFFFF;
+            font-weight: bold;
+        }
+
+        .red {
+            background-color: #FF0000;
+            color: #FFFFFF;
+        }
+
+        .yellow {
+            background-color: #FFFF00;
+            color: #000000;
+        }
+
+        .blue {
+            background-color: #00BFFF;
+            color: #FFFFFF;
+        }
+    </style>
+    <title>有求（或許）必應許願池</title>
+</head>
+<body>
+    <h1>有求（或許）必應許願池</h1>
+    <label for="giftInput">填寫禮物：</label>
+    <input type="text" id="giftInput">
+    
+    <label for="priceRange">選擇價格區間：</label>
+    <select id="priceRange">
+        <option value="500-1000" class="red">500-1000</option>
+        <option value="1000-2000" class="yellow">1000-2000</option>
+        <option value="2000-15000" class="blue">2000-15000</option>
+    </select>
+
+    <button onclick="addGift()">新增禮物</button>
+
+    <div id="giftList"></div>
+
+    <script>
+        function addGift() {
+            const giftInput = document.getElementById('giftInput');
+            const priceRange = document.getElementById('priceRange');
+            const giftList = document.getElementById('giftList');
+
+            if (giftInput.value.trim() !== '') {
+                const giftBox = document.createElement('div');
+                const colorClass = priceRange.options[priceRange.selectedIndex].className;
+                giftBox.className = `giftBox ${colorClass}`;
+                giftBox.innerHTML = `<div>${giftInput.value}</div><div>(${priceRange.value})</div><div class="deleteButton" onclick="deleteGift(this)">X</div>`;
+                giftList.appendChild(giftBox);
+
+                // 清空輸入欄
+                giftInput.value = '';
+            }
+        }
+
+        function deleteGift(element) {
+            const giftBox = element.parentElement;
+            giftBox.parentNode.removeChild(giftBox);
+        }
+    </script>
+</body>
+</html>
